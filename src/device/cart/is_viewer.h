@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *   Mupen64plus - audio_out_backend.h                                     *
+ *   Mupen64plus - is_viewer.h                                             *
  *   Mupen64Plus homepage: https://mupen64plus.org/                        *
- *   Copyright (C) 2016 Bobby Smiles                                       *
+ *   Copyright (C) 2021 loganmc10                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,20 +19,22 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef M64P_BACKENDS_API_AUDIO_OUT_BACKEND_H
-#define M64P_BACKENDS_API_AUDIO_OUT_BACKEND_H
+#ifndef M64P_DEVICE_PI_IS_VIEWER_H
+#define M64P_DEVICE_PI_IS_VIEWER_H
 
 #include <stddef.h>
+#include <stdint.h>
 
-struct audio_out_backend_interface
+struct is_viewer
 {
-    /* Allow the backend to be notified of sample frequency.
-     */
-    void (*set_frequency)(void* aout, unsigned int frequency);
-
-    /* Push samples to be played by the backend
-     */
-    void (*push_samples)(void* aout, const void* samples, size_t size);
+    char data[0x1000];
+    char output_buffer[0x200];
+    uint32_t buffer_pos;
 };
+
+void poweron_is_viewer(struct is_viewer* is_viewer);
+
+void read_is_viewer(void* opaque, uint32_t address, uint32_t* value);
+void write_is_viewer(void* opaque, uint32_t address, uint32_t value, uint32_t mask);
 
 #endif

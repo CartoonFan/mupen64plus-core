@@ -228,8 +228,8 @@ EXPORT m64p_error CALL VidExt_ListFullscreenRates(m64p_2d_size Size, int *NumRat
         }
 
         /* skip when we're not at the right resolution */
-        if (displayMode.w != Size.uiWidth ||
-            displayMode.h != Size.uiHeight)
+        if (displayMode.w != (int)Size.uiWidth ||
+            displayMode.h != (int)Size.uiHeight)
             continue;
 
         Rates[rateCount] = displayMode.refresh_rate;
@@ -313,7 +313,6 @@ EXPORT m64p_error CALL VidExt_SetVideoMode(int Width, int Height, int BitsPerPix
     if (SDL_GL_SetSwapInterval(l_SwapControl) != 0)
     {
         DebugMessage(M64MSG_ERROR, "SDL swap interval (VSync) set failed: %s", SDL_GetError());
-        return M64ERR_SYSTEM_FAIL;
     }
 #endif
 
@@ -409,7 +408,6 @@ EXPORT m64p_error CALL VidExt_SetVideoModeWithRate(int Width, int Height, int Re
     if (SDL_GL_SetSwapInterval(l_SwapControl) != 0)
     {
         DebugMessage(M64MSG_ERROR, "SDL swap interval (VSync) set failed: %s", SDL_GetError());
-        return M64ERR_SYSTEM_FAIL;
     }
 
     l_Fullscreen = (ScreenMode == M64VIDEO_FULLSCREEN);
